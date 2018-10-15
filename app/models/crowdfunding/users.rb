@@ -8,9 +8,10 @@ class User
     @name = name
     @projects = []
     @pledges = []
+    @@all << self
   end
 
-  self.all
+  def self.all
     @@all
   end
 
@@ -26,20 +27,24 @@ class User
     @@all.select {|user| user.projects.size > 0}
   end
 
-  def add_pledge(pledge, project)
-    if project.name == project
-        new_pledge = Pledge.new(pledge, self, project)
-        project.users << self
-        @pledges << new_pledge
-        new_pledge
+  def find_project_by_name(name)
+    Project.all.find {|projects| projects.name == name}
+  end
+
+  def add_pledge(pledge, pledge_project)
+    if self.find_project_by_name(pledge_project) == nil
+      "Missing project data. Please choose a project or create one."
     else
-      "That project does not exist. Would you like to make one?"
+      new_pledge = Pledge.new(pledge, self, pledge_project)
+      @pledges << new_pledge
+      new_pledge
     end
   end
 
   def add_project(project_name, goal)
-    new_project = Project.new(project_name)
-    self.projects << new_project
+    new_project = Project.new(project_name, goal)
+    @projects << new_project
+    Project.all << new_project
     new_project
   end
 

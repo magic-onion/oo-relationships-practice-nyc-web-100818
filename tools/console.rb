@@ -33,10 +33,16 @@ end
 
 ## NEED TO TEST CROWDFUNDING ##
 
+## create projects and pledges through users
 
+alex = User.new("alex")
+jim = User.new("jim")
+internet = jim.add_project("internet", 1000)
+new_internet = alex.add_project("new internet", 200)
 
-
-
+jim_pledge = jim.add_pledge(150, "new internet")
+alex_pledge = alex.add_pledge(1200, "internet")
+jim_internet_pledge = jim.add_pledge(10, "internet")
 
 
 
